@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <a href="Actividad_15.html">Inicio</a>
+
+    <p id = "Cargando">Cargando datos</p>
+    <img src = "https://vignette.wikia.nocookie.net/dragonballfights/images/e/e0/Goku-Cargando.gif/revision/latest?cb=20120909235655&path-prefix=es"
+    id = "CargandoGif">
+
+    <p id = "Error"></p>
+
+    <p id = "id"></p>
+
+    <h1 id = "titulo"></h1>
+
+    <img id = "imagen">
+
+    <script>
+        const url = new URL(window.location.href)
+        console.log(url);
+        const parametro = url.searchParams;
+        const id = parametro.get('id');
+        console.log(id);
+        document.getElementById('id').innerHTML = id;
+
+        const urlDetalle = `https://jsonplaceholder.typicode.com/photos/${id}`;
+        fetch(urlDetalle)
+        .then(respuesta => respuesta.json())
+        .then(foto => {
+            document.getElementById('titulo').innerHTML = foto.title;
+            document.getElementById('imagen').src = foto.url;
+
+        })
+        .catch(error => {
+        document.getElementById('Error').innerHTML = error.message;
+        console.log(error);
+        })
+        .finally(() => {
+            document.getElementById('Cargando').innerHTML = "";
+            document.getElementById('CargandoGif').src = "";
+            console.log("Proceso terminado");
+        })
+    </script>
+</body>
+</html>
